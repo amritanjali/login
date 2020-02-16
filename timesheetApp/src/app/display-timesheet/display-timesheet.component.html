@@ -1,0 +1,125 @@
+<!-- <div class="fixed-top  shadow p-4 mb-4 bg-white">
+<h3>
+   Welocme {{cureentUser.username}}
+   <span class="btn btn-info" (click)="seeProfile()" *ngIf="displayTimesheet">see your profile</span>&nbsp;&nbsp;
+   <span class="btn btn-info" (click)="userList()"> Only Admin Can se see all users list</span>
+</h3>
+<span class="float-right">
+  <i class="fas fa-sign-out-alt" aria-hidden="true" (click)="logoutClick()"></i>
+</span>
+</div> -->
+<!-- <img src="../../assets/img/loader.gif" *ngIf="loaderShow"> -->
+<div class="col-xs-12 col-md-12 timesheet-container">
+<div class="col-xs-12 col-md-12 " *ngIf="displayTimesheet">
+    <p>display-timesheet works!</p>
+ <div class="col-xs-12 col-md-12 text-right">
+     <button class="btn btn-primary" (click)="sendApproval()">Send for Approval</button>
+ </div>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th><input type="checkbox" class="cursor-pointer" (change)="selectAllCheck(timesheets.id)"> &nbsp; &nbsp;No.</th>
+            <th>days</th>
+            <th>date</th>
+            <th>total hours</th>
+          </tr>
+        </thead>
+        <tbody>
+            
+          <tr *ngFor="let timesheet of timesheets; let i = index" [ngClass]="{'bg-color': timesheet.dayName ===satDay, 'bg-color1': timesheet.dayName ===sunDay}">
+            <td > <input type="checkbox" class="cursor-pointer" (change)="toggleEditable($event, timesheet.dayName, timesheet.dates, timesheet.hour, timesheet.description, timesheet.id)">&nbsp;&nbsp;{{timesheet.day}}</td>
+            <td class="cursor-pointer" (click)="openDialogBox(timesheet.dayName, timesheet.dates, timesheet.id, timesheet.hour)" >{{timesheet.dayName}}</td>
+            <td>{{timesheet.dates | date: 'dd-MM-yyyy'}}</td>
+            <td>{{timesheet.hour}}</td>
+          </tr>
+      
+        </tbody>
+      </table>
+
+      <div>
+        <p-dialog header="timesheet" [(visible)]="display" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="70" 
+        showEffect="fade" appendTo="body" modal="modal" [closable]="true">
+  
+        <div >dayname: {{popdate}}</div>
+        <!-- <div>id: {{}}</div> -->
+        <div>date: {{getdayNumb}}</div>
+        <div class="">{{daysIdN}}</div>
+        <div>
+          <label>Hours</label>
+          <input type="number" [(ngModel)]="updateTimeSheetHour" [ngClass]="{'readonly':isDataSave==true}">
+        </div>
+        <!-- <div>
+          <label>project name</label>
+          <input type="text"> 
+        </div> -->
+       <div>
+         <label>description</label>
+         <textarea placeholder="description of work" [(ngModel)]="updateTimeSheetDesription"></textarea>
+       </div>
+       
+       <button class="btn btn-primary" (click)="saveUpdateTimesheet(getdayNumb, daysIdN)" [ngClass]="{'disabled': !checkShowMe }">Save</button>
+      {{!checkShowMe}}
+      </p-dialog>
+
+      </div>
+</div>
+
+
+
+<!-- <div class="col-xs-12 col-md-12" *ngIf="!displayTimesheet">
+  <button class="btn btn-primary" (click)="back()">Back</button>
+ <h3>Cureent user name: {{cureentUser.username}}</h3>
+ <h3>First Name: {{cureentUser.firstName}}</h3>
+ <h3>Last Name: {{cureentUser.lastName}}</h3>
+ <button class="btn btn-primary" (click)="updateProfile()">Update profile</button>
+</div> -->
+
+<!-- <div class="col-xs-12 col-md-12" *ngIf="updateProfileShow">
+    <div class="container">
+        <button class="btn btn-primary" (click)="back()">Back</button>
+        <h2>Update Profile</h2>
+        <form >
+          <div class="form-group">
+            <label for="email">First Name:</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+          </div>
+          <div class="form-group">
+            <label for="pwd">Last Name:</label>
+            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+          </div>
+          <div class="form-group">
+              <label for="pwd">User Name:</label>
+              <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+          </div>
+   
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+</div> -->
+
+</div>
+<p-dialog header="timesheet for Approval" [(visible)]="displayApprovalSheet" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="70" 
+showEffect="fade" appendTo="body" modal="modal" [closable]="true">
+<table class="table">
+    <thead>
+      <tr>
+       
+        <th>days</th>
+        <th>date</th>
+        <th>total hours</th>
+        <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+<tr *ngFor="let approvaltimesheets of approvalTimesheetdata; let i = index">
+  
+  <td class="cursor-pointer">{{approvaltimesheets.day}}</td>
+  <td>{{approvaltimesheets.date | date: 'dd-MM-yyyy'}}</td>
+  <td>{{approvaltimesheets.hour}}</td>
+  <td>{{approvaltimesheets.description}}</td>
+</tr>
+</tbody>
+</table>
+<button class="btn btn-info" (click)="sendMail()">Send Mail</button>
+</p-dialog>
